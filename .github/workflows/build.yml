@@ -26,7 +26,7 @@ jobs:
         pip install kivy
         pip install python-telegram-bot
 
-    - name: Install Android SDK
+    - name: Install Android Command Line Tools
       run: |
         sudo apt-get update
         sudo apt-get install -y unzip
@@ -38,13 +38,13 @@ jobs:
         export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools:$PATH
         echo "ANDROID_SDK_ROOT=$HOME/android" >> $GITHUB_ENV
         echo "PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools:$PATH" >> $GITHUB_ENV
-        $HOME/android/cmdline-tools/latest/bin/sdkmanager --version
+        sdkmanager --version
 
-    - name: Accept Licenses and Install Build-Tools
+    - name: Install Build-Tools and Platforms
       run: |
         source $GITHUB_ENV
         sdkmanager --licenses
-        sdkmanager --install "platform-tools" "build-tools;35.0.0" "platforms;android-33"
+        sdkmanager --install "platform-tools" "build-tools;34.0.0" "platforms;android-33"
 
     - name: Debug Build-Tools Installation
       run: |
@@ -59,7 +59,7 @@ jobs:
         buildozer init
         sed -i 's|# android.sdk_path =|android.sdk_path = $ANDROID_SDK_ROOT|' buildozer.spec
         sed -i 's/android.arch = armeabi-v7a/android.arch = armeabi-v7a arm64-v8a/' buildozer.spec
-        echo "android.build_tools_version = 35.0.0" >> buildozer.spec
+        echo "android.build_tools_version = 34.0.0" >> buildozer.spec
         buildozer -v android debug
 
     - name: Upload APK
