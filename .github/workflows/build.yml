@@ -44,12 +44,12 @@ jobs:
       run: |
         source $GITHUB_ENV
         sdkmanager --licenses
-        sdkmanager "platform-tools" "build-tools;35.0.0" "platforms;android-33"
+        sdkmanager --install "platform-tools" "build-tools;35.0.0" "platforms;android-33"
 
     - name: Debug Build-Tools Installation
       run: |
         source $GITHUB_ENV
-        ls -l $ANDROID_SDK_ROOT/build-tools/35.0.0
+        ls -l $ANDROID_SDK_ROOT/build-tools
 
     - name: Install buildozer
       run: pip install buildozer
